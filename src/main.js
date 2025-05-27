@@ -1,4 +1,3 @@
-
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
@@ -18,7 +17,6 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 let currentQuery = '';
 let page = 1;
-let hitsPerPage = 0;
 let totalHits = 0;
 
 form.addEventListener('submit', onSearch);
@@ -36,6 +34,7 @@ function onSearch(evt) {
     });
     return;
   }
+
   currentQuery = query;
   page = 1;
   totalHits = 0;
@@ -48,31 +47,30 @@ function onLoadMore() {
   page += 1;
   fetchImages(true);
 }
+
 async function fetchImages(isLoadMore = false) {
   showLoader();
+
+  const perPage = 15; // 🔧 Фіксована кількість на сторінку
 
   try {
     const data = await getImagesByQuery(currentQuery, page);
     const { hits, totalHits: total } = data;
     totalHits = total;
-    hitsPerPage = hitsPerPage || hits.length;
 
     if (hits.length === 0) {
       iziToast.error({
-        message:
-          'Sorry, there are no images matching your search query. Please try again!',
+        message: 'Sorry, there are no images matching your search query. Please try again!',
         position: 'topRight',
         timeout: 3000,
       });
+      hideLoadMoreButton();
       return;
     }
 
     createGallery(hits);
 
-    const shownImages = page * hitsPerPage;
-    if (shownImages < totalHits) {
-      showLoadMoreButton();
-    } else {
+    if (hits.length < perPage || page * perPage >= totalHits) {
       hideLoadMoreButton();
       if (isLoadMore) {
         iziToast.info({
@@ -80,6 +78,8 @@ async function fetchImages(isLoadMore = false) {
           position: 'bottomRight',
         });
       }
+    } else {
+      showLoadMoreButton();
     }
 
     if (isLoadMore) smoothScroll();
@@ -93,7 +93,6 @@ async function fetchImages(isLoadMore = false) {
     hideLoader();
   }
 }
-
 
 function smoothScroll() {
   const firstCard = document.querySelector('.gallery').firstElementChild;
