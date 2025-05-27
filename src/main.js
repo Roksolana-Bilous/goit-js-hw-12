@@ -24,6 +24,20 @@ let totalHits = 0;
 form.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
 
+export function showLoadMoreButton() {
+  const loadMoreBtn = document.querySelector('.load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.remove('is-hidden');
+  }
+}
+
+export function hideLoadMoreButton() {
+  const loadMoreBtn = document.querySelector('.load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.add('is-hidden');
+  }
+}
+
 
 function onSearch(evt) {
   evt.preventDefault();
