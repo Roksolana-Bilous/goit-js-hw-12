@@ -56,9 +56,15 @@ export function hideLoader() {
 }
 
 export function showLoadMoreButton() {
-  loadMoreButton.classList.add('is-visible');
+  const loadMoreBtn = document.querySelector('.load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.remove('is-hidden');
+  }
 }
 
 export function hideLoadMoreButton() {
-  loadMoreButton.classList.remove('is-visible');
+  const loadMoreBtn = document.querySelector('.load-more');
+  if (loadMoreBtn) {
+    loadMoreBtn.classList.add('is-hidden');
+  }
 }
