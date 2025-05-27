@@ -51,7 +51,7 @@ function onLoadMore() {
 async function fetchImages(isLoadMore = false) {
   showLoader();
 
-  const perPage = 15; // 🔧 Фіксована кількість на сторінку
+  const perPage = 15;
 
   try {
     const data = await getImagesByQuery(currentQuery, page);
